@@ -1,13 +1,32 @@
 {
-  "spm": {
-    "build": {
-      "global": {
-        "jquery": "jquery",
-        "angular": "angular"
-      }
-    },
-    "dest": "./dist"
+  "name": "yq-ng-mongoose",
+  "version": "1.1.0",
+  "description": "angular-service-mongoose",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
   },
-  "dependencies": {
-  }
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/892280082/yq-ng-mongoose.git"
+  },
+  "keywords": [
+    "angular",
+    "mongoose"
+  ],
+  "author": {
+    "name": "yq"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/892280082/yq-ng-mongoose/issues"
+  },
+  "homepage": "https://github.com/892280082/yq-ng-mongoose#readme",
+  "readme": "ERROR: No README data found!",
+  "_id": "yq-ng-mongoose@1.0.0",
+  "_shasum": "64d44fe9d63caf5908936d1f67650834cfd07e4c",
+  "_from": "yq-ng-mongoose@latest"
 }

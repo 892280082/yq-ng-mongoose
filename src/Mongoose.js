@@ -90,19 +90,17 @@ Mongoose.prototype.__link = function(url){
  * @param  {Object}   condition 分页条件
  * @param  {Function} callback  (err,paginObject)
  */
-Mongoose.prototype.$getData = function(query,condition,callback){
+Mongoose.prototype.$find = function(query,callback){
 	util.checkSetting(this);
 
 	this.$searchInfo.query = query;
-
-	if(condition)
-		util.merge(this.$searchInfo,condition);
 
 	if(!callback)
 		return this;
 
 	util.getData(this,callback);
 };
+
 
 /**
  * 联合查询
@@ -116,6 +114,11 @@ Mongoose.prototype.limit = function(limit){
 Mongoose.prototype.sort = function(sort){
 	this.$searchInfo.sort = sort;
 	return this;
+};
+
+Mongoose.prototype.populate = function(populate){
+	this.$searchInfo.populate = populate;
+	return this;	
 };
 
 Mongoose.prototype.skip = function(skip){
