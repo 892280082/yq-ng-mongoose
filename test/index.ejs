@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>测试 angular-mongoose</title>
+	<script type="text/javascript" src="../plugin/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../plugin/angular/angular.min.js"></script>
+	<script type="text/javascript" src="../plugin/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/angular-mongose/test/dist/index.js"></script>
+	<link rel="stylesheet" href="../plugin/bootstrap/dist/css/bootstrap.css">
+	<style>
+		ul {list-style-type: none }
+		ul li span {margin-right: 100px;width: 150px;text-align: center;}
+	</style>
+</head>
+<body ng-controller="main">
+	测试
+	<ul>
+		<li ng-repeat="salon in salonDao.$array">
+			<span>序号:{{$index  + 1}}</span>
+			<span>会所名:{{ salon.title }}</span>
+			<span>会所QQ:{{ salon.qq }}</span>
+			<span>创建日期:{{ salon.creatTime | date:'yyyy-MM-dd' }}</span>
+			<span><a ng-click="removePojo(salon)">删除</a> <a href="" ng-click="updateLason(salon)">修改</a></span>
+		</li>
+	</ul>
+
+	<mongoose-pagin ng-model="salonDao"></mongoose-pagin>
+
+
+	<hr>
+
+
+	<p>
+	分页大小<input type="text" 
+				ng-model="salonDao.$pagingInfo.pageSize"
+				ng-change="salonDao.$setCurPage()"
+			  style="width:50px;" 
+			  value="{{ salonDao.$pagingInfo.pageSize }}">  
+	<input type="salonDao.$pagingInfo.curPage"
+			  style="width:50px;"
+			  value="{{ salonDao.$pagingInfo.curPage }}">/{{ salonDao.$pagingInfo.allPage }}</p>
+
+	  <hr>
+
+
+    <input type="button" value="添加" ng-click="addNewPojo()">
+    56745676jk<input type="text" ng-model="salonDao.$query.$$_qq" value="56745676jk">
+    <input type="button" value="查询" ng-click="searchPojo()">
+
+
+<!--<uib-pagination
+    	class="pagination-sm" 
+    	boundary-links="true"
+    	max-size="8"
+    	ng-model="bigCurrentPage" 
+    	ng-change="pageChanged()"
+    	total-items="bigTotalItems" 
+    	items-per-page="perPage" 
+    	num-pages="numPages">
+	</uib-pagination> -->
+
+	<!--
+	bigCurrentPage -> curPage
+	total-items -> allPage
+	items-per-page - > pageSize
+	-->
+
+	<ul>
+		<li ng-repeat="salon in arrayPagin.$array">
+			<span>序号:{{$index  + 1}}</span>
+			<span>会所名:{{ salon.title }}</span>
+			<span>会所QQ:{{ salon.qq }}</span>
+			<span>创建日期:{{ salon.creatTime | date:'yyyy-MM-dd' }}</span>
+			<span><a ng-click="arrayPagin.$remove(salon)">删除</a> <a href="" ng-click="updateLason(salon)">修改</a></span>
+		</li>
+	</ul>
+	<mongoose-pagin ng-model="arrayPagin"></mongoose-pagin>
+</body>
+</html>
