@@ -1,6 +1,6 @@
 {
   "name": "yq-ng-mongoose",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "angular-service-mongoose",
   "main": "index.js",
   "directories": {
