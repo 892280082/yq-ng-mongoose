@@ -98,19 +98,19 @@ exports.merge = function(ori,target){
 };			
 
 exports.checkSetting = function(mongoose){
-	if(!mongoose.$service.$http)
+	if(!mongoose.service.$http)
 		log(1,'$http 没有设置');
 };
 
 exports.getData = function(mongoose,callback){
-	var $http = mongoose.$service.$http;
-	var searchInfo = mongoose.$searchInfo;
-    var pagingInfo = mongoose.$pagingInfo;
+	var $http = mongoose.service.$http;
+	var searchInfo = mongoose.searchInfo;
+    var pagingInfo = mongoose.pagingInfo;
 
     var tempQuery = {};
 
     exports.merge(tempQuery,searchInfo.query);
-    exports.merge(tempQuery,exports.dealQuery(mongoose.$query));
+    exports.merge(tempQuery,exports.dealQuery(mongoose.query));
 
     var sendPojo = {
         query:tempQuery,
@@ -135,18 +135,18 @@ exports.getData = function(mongoose,callback){
 };
 
 exports.analyDate = function(mongoose,data){
-    var $pagingInfo = mongoose.$pagingInfo;
+    var pagingInfo = mongoose.pagingInfo;
 
-    var waterfull = $pagingInfo.waterfull;
+    var waterfull = pagingInfo.waterfull;
 
-    $pagingInfo.total = data.total;
-    $pagingInfo.curPage = data.skip+1;
-    $pagingInfo.allPage = exports.juageAllPage(data.limit,data.total);
+    pagingInfo.total = data.total;
+    pagingInfo.curPage = data.skip+1;
+    pagingInfo.allPage = exports.juageAllPage(data.limit,data.total);
 
-    var $array = mongoose.$array;
+    var array = mongoose.array;
 
-    waterfull ? mongoose.$array = exports.concactArray(mongoose.$array,data.docs) 
-              : mongoose.$array = data.docs;
+    waterfull ? mongoose.array = exports.concactArray(mongoose.array,data.docs) 
+              : mongoose.array = data.docs;
 };
 
 exports.juageAllPage = function(pageSzie,total){
@@ -182,14 +182,14 @@ var dealCallback = function(data,callback,fun1,fun2){
  * @param  {Object}   mongoose Mongoose对象
  */
 exports.save = function(pojo,callback,mongoose){
-    var url = mongoose.$searchInfo.url+'Save';
-    var $http = mongoose.$service.$http;
+    var url = mongoose.searchInfo.url+'Save';
+    var $http = mongoose.service.$http;
 
     $http.post(url,{"savePojo":pojo})
     .success(function(data){
 
         dealCallback(data,callback,function(){
-            mongoose.$setCurPage();
+            mongoose.setCurPage();
         });
 
     }).error(function(){
@@ -204,13 +204,13 @@ exports.save = function(pojo,callback,mongoose){
  * @param  {Object}   mongoose Mongoose对象
  */
 exports.remove = function(pojo,callback,mongoose){
-    var url = mongoose.$searchInfo.url+'Remove';
-    var $http = mongoose.$service.$http;
+    var url = mongoose.searchInfo.url+'Remove';
+    var $http = mongoose.service.$http;
 
     $http.post(url,{_id:pojo._id})
     .success(function(data){
         dealCallback(data,callback,function(){
-            mongoose.$setCurPage();
+            mongoose.setCurPage();
         });
     }).error(function(){
         log(2,'saveUrl:连接出错');
@@ -225,13 +225,13 @@ exports.remove = function(pojo,callback,mongoose){
  * @param  {Object}   mongoose Mongoose对象
  */
 exports.update = function(pojo,callback,mongoose){
-    var url = mongoose.$searchInfo.url+'Update';
-    var $http = mongoose.$service.$http;
+    var url = mongoose.searchInfo.url+'Update';
+    var $http = mongoose.service.$http;
 
     $http.post(url,{updatePojo:pojo})
     .success(function(data){
         dealCallback(data,callback,function(){
-            mongoose.$setCurPage();
+            mongoose.setCurPage();
         });
     }).error(function(){
         log(2,'saveUrl:连接出错');

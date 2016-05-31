@@ -8,11 +8,11 @@
  * 1.__link					链接数据库
  * 2.$getData				获取后台数据
  * 3.__setHttp				注入http服务
- * 4.$setCurPage			跳转到指定页
- * 5.$save					将数据保存到数据库,刷新当前页
- * 6.$remove				从数据库删除一条数据,刷新当前页. 如果当前页数据条数为0,则刷新上一页.
- * 7.$update				更新一条数据到数据库,刷新当前页.
- * 8.$search 				查询数据，页面刷新到第一页.
+ * 4.setCurPage			跳转到指定页
+ * 5.save					将数据保存到数据库,刷新当前页
+ * 6.remove				从数据库删除一条数据,刷新当前页. 如果当前页数据条数为0,则刷新上一页.
+ * 7.update				更新一条数据到数据库,刷新当前页.
+ * 8.search 				查询数据，页面刷新到第一页.
  * ------------------------------------------------
  * 
  */
@@ -33,7 +33,7 @@ var Mongoose;
 module.exports = Mongoose =  function(){
 
 	//分页信息
-	this.$pagingInfo = {
+	this.pagingInfo = {
 	    total:0,
 	    curPage:1,
 	    pageSize:20,
@@ -42,7 +42,7 @@ module.exports = Mongoose =  function(){
 	};
 
 	//查询信息
-	this.$searchInfo = {
+	this.searchInfo = {
 	    query:{},
 	    sort:null,
 	    populate:null,
@@ -50,18 +50,18 @@ module.exports = Mongoose =  function(){
 	};
 
 	//注入angular的服务
-	this.$service = {
+	this.service = {
 		$http:null
 	};
 
 	//前台显示的对象
-	this.$array = [];
+	this.array = [];
 
 	//回调函数
-	this.$callback = null;
+	this.callback = null;
 
 	//查询对象
-	this.$query = {};
+	this.query = {};
 };
 
 /**
@@ -70,7 +70,7 @@ module.exports = Mongoose =  function(){
  * @return {mongoose} 返回mongoose对象  
  */
 Mongoose.prototype.__setHttp = function(http){
-	this.$service.$http = http;
+	this.service.$http = http;
 	return this;
 };
 
@@ -81,7 +81,7 @@ Mongoose.prototype.__setHttp = function(http){
 Mongoose.prototype.__link = function(url){
 	util.checkSetting(this);
 
-	this.$searchInfo.url = url;
+	this.searchInfo.url = url;
 	return this;
 };
 
@@ -90,10 +90,10 @@ Mongoose.prototype.__link = function(url){
  * @param  {Object}   condition 分页条件
  * @param  {Function} callback  (err,paginObject)
  */
-Mongoose.prototype.$find = function(query,callback){
+Mongoose.prototype.find = function(query,callback){
 	util.checkSetting(this);
 
-	this.$searchInfo.query = query;
+	this.searchInfo.query = query;
 
 	if(!callback)
 		return this;
@@ -107,57 +107,57 @@ Mongoose.prototype.$find = function(query,callback){
  * limit sort skip exec
  */
 Mongoose.prototype.limit = function(limit){
-	this.$pagingInfo.pageSize = limit;
+	this.pagingInfo.pageSize = limit;
 	return this;
 };
 
 Mongoose.prototype.sort = function(sort){
-	this.$searchInfo.sort = sort;
+	this.searchInfo.sort = sort;
 	return this;
 };
 
 Mongoose.prototype.populate = function(populate){
-	this.$searchInfo.populate = populate;
+	this.searchInfo.populate = populate;
 	return this;	
 };
 
 Mongoose.prototype.skip = function(skip){
-	this.$pagingInfo.curPage = skip+1;
+	this.pagingInfo.curPage = skip+1;
 	return this;
 };
 
 Mongoose.prototype.waterfull = function(flag){
-	this.$pagingInfo.waterfull = !!flag;
+	this.pagingInfo.waterfull = !!flag;
 	return this;
 };
 
 /** @param  {Function} exec 回调函数 */
 Mongoose.prototype.exec = function(exec){
 	if(exec)
-		this.$callback = exec;
+		this.callback = exec;
 
 	util.getData(this,exec);
 };
 
 /** @param  [number?] curPage 指定页数 */
-Mongoose.prototype.$setCurPage = function(curPage){
-	curPage = curPage || this.$pagingInfo.curPage;
+Mongoose.prototype.setCurPage = function(curPage){
+	curPage = curPage || this.pagingInfo.curPage;
 	this.skip(curPage-1);
-	this.exec(this.$callback);
+	this.exec(this.callback);
 };
 
-Mongoose.prototype.$save = function(pojo,callback){
+Mongoose.prototype.save = function(pojo,callback){
 	util.save(pojo,callback,this);
 };
 
-Mongoose.prototype.$remove = function(pojo,callback){
+Mongoose.prototype.remove = function(pojo,callback){
 	util.remove(pojo,callback,this);
 };
 
-Mongoose.prototype.$update = function(pojo,callback){
+Mongoose.prototype.update = function(pojo,callback){
 	util.update(pojo,callback,this);
 };
 
-Mongoose.prototype.$search = function(){
-	this.skip(0).exec(this.$callback);
+Mongoose.prototype.search = function(){
+	this.skip(0).exec(this.callback);
 };
